@@ -41,7 +41,7 @@ def gcloud_execution(number_of_randow_rows, table):
     length_text_each_person = []
     overall_text = ""
 
-    # Takes each random row and cleans it and then concatenates to the next row to create a single string
+    # Takes each random row, cleans it and then it concatenates it to the next row to create a single string
     for row in random_row_table.index:
         if (
             random_row_table["text"][row]
