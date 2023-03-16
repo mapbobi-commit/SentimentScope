@@ -5,7 +5,7 @@ from sentiment_analysis_vader import vader_execution
 
 # Takes the date and text columns
 data = pd.read_csv(
-    "cd.. /datasets/example/example_csv_file.csv",
+    "datasets/example/example_csv_file.csv",
     usecols=[2, 5],
     encoding="latin-1",
 )
