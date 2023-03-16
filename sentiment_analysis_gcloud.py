@@ -130,7 +130,7 @@ def gcloud_execution(number_of_randow_rows, table):
 
     # Writes it in a file
     random_row_table.to_csv(
-        "sentiment_analysis_file_twit.csv", index=False
+        "sentiment_analysis_file_gcloud.csv", index=False
     )
 
     # Looks how much time the operation took
