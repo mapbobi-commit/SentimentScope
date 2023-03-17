@@ -3,9 +3,12 @@ from sentiment_analysis_gcloud import gcloud_execution
 from sentiment_analysis_vader import vader_execution
 
 
+
+path_to_file= input("What file do you want to read ?(write the relative path please)")
+
 # Takes the date and text columns
 data = pd.read_csv(
-    "datasets/example/example_csv_file.csv",
+    "path_to_file",
     usecols=[2, 5],
     encoding="latin-1",
 )
@@ -13,6 +16,9 @@ data = pd.read_csv(
 
 add = False
 while add == False:
+    
+    
+    
     number_random_rows = int(
         input("How many rows do you want in your csv file?")
     )
