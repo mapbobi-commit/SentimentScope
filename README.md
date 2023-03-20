@@ -1,5 +1,4 @@
 # Sentiment Analysis
-## An Omnithink project
 
 A tool for performing sentiment analysis on Instagram and Twitter comments using Natural Language API (gcloud) or the  [vaderSentiment](https://github.com/cjhutto/vaderSentiment) Python library.
 
