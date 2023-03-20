@@ -1,0 +1,4 @@
+rows: 10
+method: gcloud
+number_of_tables: 1
+path_to_file: ""
