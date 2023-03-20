@@ -3,4 +3,4 @@ numpy
 pandas
 six
 vaderSentiment
-yaml
+pyyaml
