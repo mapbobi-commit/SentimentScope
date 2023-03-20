@@ -21,7 +21,7 @@ python3 -m pip install -r requirements.txt
 
 ## Start app
 ```bash
-py src/> app.py
+src/> py app.py
 ```
 
 ## Issues
