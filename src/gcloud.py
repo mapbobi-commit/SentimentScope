@@ -4,7 +4,6 @@ import pandas as pd
 from datetime import datetime
 import time
 import numpy as np
-from generator import date_time_changer
 
 
 def gcloud_analyze_sentiment(content):
@@ -26,52 +25,49 @@ def gcloud_analyze_sentiment(content):
     return response
 
 
-def gcloud_execution(number_of_randow_rows, table):
-    # Reads random rows
-    random_row_table = table.sample(number_of_randow_rows)
+# Takes each random row and cleans it and then concatenates to the next row to create a single string
+def string_concatenate(table):
     length_text_each_person = []
     overall_text = ""
 
-    # Takes each random row and cleans it and then concatenates to the next row to create a single string
-    for row in random_row_table.index:
+    for row in table.index:
         if (
-            random_row_table["text"][row]
+            table["text"][row]
             .strip(" ")
             .endswith("?")
-            or random_row_table["text"][row]
+            or table["text"][row]
             .strip(" ")
             .endswith(".")
-            or random_row_table["text"][row]
+            or table["text"][row]
             .strip(" ")
             .endswith("!")
         ):
             overall_text = "{}{} <br>".format(
                 overall_text,
-                random_row_table["text"][row].strip(" "),
+                table["text"][row].strip(" "),
             )
             length_text_each_person.append(
                 len(
-                    random_row_table["text"][row].strip(" ")
+                    table["text"][row].strip(" ")
                 )
             )
         else:
             overall_text = "{}{}.<br>".format(
                 overall_text,
-                random_row_table["text"][row].strip(" "),
+                table["text"][row].strip(" "),
             )
             length_text_each_person.append(
                 len(
-                    random_row_table["text"][row].strip(" ")
+                    table["text"][row].strip(" ")
                 )
             )
+    return length_text_each_person, overall_text
 
-    sentences_sentiment = gcloud_analyze_sentiment(
-        overall_text
-    ).sentences
 
-    # Puts the sentiment of every person into array
-    # If the text of a person is split into multiple sentences,
-    # it adds them up in the sentiment magnitude array and does the average of sentiment score
+# Puts the sentiment of every person into array
+# If the text of a person is split into multiple sentences,
+# it adds them up in the sentiment magnitude array and does the average of sentiment score
+def string_splitter(sentences_sentiment, length_text_each_person):
     previous_offset = 0
     i = 0
     sentiment_score = []
@@ -106,7 +102,22 @@ def gcloud_execution(number_of_randow_rows, table):
     sentiment_score[i] = round(
         np.mean(sentiment_score[i]), 1
     )
+    return sentiment_magnitude, sentiment_score
 
+
+def gcloud_execution(number_of_randow_rows, table):
+    # Reads random rows
+    random_row_table = table.sample(number_of_randow_rows)
+
+    length_text_each_person, overall_text = string_concatenate(
+        random_row_table)
+
+    sentences_sentiment = gcloud_analyze_sentiment(
+        overall_text
+    ).sentences
+
+    sentiment_magnitude, sentiment_score = string_splitter(
+        number_of_randow_rows, length_text_each_person)
     (
         random_row_table["sentiment_magnitude"],
         random_row_table["sentiment_score"],
@@ -115,3 +126,4 @@ def gcloud_execution(number_of_randow_rows, table):
         sentiment_score,
     )
     return random_row_table
+
