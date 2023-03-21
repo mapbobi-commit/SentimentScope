@@ -12,21 +12,16 @@ def date_time_changer(date):
     return date_datetime.strftime("%Y-%m-%d")
 
 
-def write(method, table):
+def write(method, table, csv_name):
     if method == "gcloud":
         table.to_csv(
-            "sentiment_analysis_file.gcloud.csv",
+            csv_name + ".csv",
             index=False,
         )
     else:
-        table.to_csv(
-            "sentiment_analysis_file.vader.csv", index=False
-        )
+        table.to_csv(csv_name + ".csv", index=False)
 
 
-number_rows = config["rows"]
-method_analysis = config["method"]
-number_of_tables = config["number_of_tables"]
 path_to_file = config["path_to_file"]
 
 # Takes the date and text columns
@@ -36,15 +31,18 @@ data = pd.read_csv(
     encoding="latin-1",
 )
 
+method_analysis = input(
+    'What method would you like to use for sentiment analysis(type "gcloud" or "vader")? '
+)
+number_rows = int(input("How many rows do you want the table to have? "))
+csv_file_name = input("What name do you want your csv file to have? ")
+
+
 if method_analysis == "gcloud":
     table = vader_execution(number_rows, data)
-    table["date"] = table["date"].apply(
-        date_time_changer
-    )
-    write(method_analysis, table)
+    table["date"] = table["date"].apply(date_time_changer)
+    write(method_analysis, table, csv_file_name)
 else:
     table = gcloud_execution(number_rows, data)
-    table["date"] = table["date"].apply(
-        date_time_changer
-    )
-    write(method_analysis, table)
+    table["date"] = table["date"].apply(date_time_changer)
+    write(method_analysis, table, csv_file_name)

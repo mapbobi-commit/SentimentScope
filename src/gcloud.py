@@ -126,4 +126,3 @@ def gcloud_execution(number_of_randow_rows, table):
         sentiment_score,
     )
     return random_row_table
-
