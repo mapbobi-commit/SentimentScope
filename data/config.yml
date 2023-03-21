@@ -1,3 +1,1 @@
-rows: 10
-method: gcloud
 path_to_file: "../data/example/example_csv_file.csv"
