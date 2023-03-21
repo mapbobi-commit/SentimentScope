@@ -5,7 +5,6 @@ import pandas as pd
 from datetime import datetime
 import time
 import numpy as np
-from generator import date_time_changer
 
 # Function which rounds and gets the sentiment out of a string
 
