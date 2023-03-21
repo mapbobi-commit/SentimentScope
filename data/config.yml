@@ -1,4 +1,4 @@
 rows: 10
 method: gcloud
 number_of_tables: 1
-path_to_file: ""
+path_to_file: "../data/example/example_csv_file.csv"
