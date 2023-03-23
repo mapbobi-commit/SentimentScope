@@ -3,13 +3,7 @@ from gcloud import gcloud_execution
 from vader import vader_execution
 from utils import config
 import datetime
-
-
-def date_time_changer(date):
-    date_datetime = datetime.strptime(
-        str(date).replace("PDT", ""), "%a %b %d %H:%M:%S %Y"
-    )
-    return date_datetime.strftime("%Y-%m-%d")
+import random
 
 
 def write(method, table, csv_name):
@@ -31,18 +25,28 @@ data = pd.read_csv(
     encoding="latin-1",
 )
 
+number_rows = int(input("How many rows do you want the table to have?"))
+csv_file_name = input("Path to the csv file you want to create."
+                      ) or "../data/nameless_csv_file" + str(
+                          random.randint(0, 100))
 method_analysis = input(
-    'What method would you like to use for sentiment analysis(type "gcloud" or "vader")? '
+    'What method would you like to use for sentiment analysis (type "gcloud" or "vader")?'
 )
-number_rows = int(input("How many rows do you want the table to have? "))
-csv_file_name = input("What name do you want your csv file to have? ")
 
-
-if method_analysis == "gcloud":
-    table = vader_execution(number_rows, data)
-    table["date"] = table["date"].apply(date_time_changer)
-    write(method_analysis, table, csv_file_name)
-else:
-    table = gcloud_execution(number_rows, data)
-    table["date"] = table["date"].apply(date_time_changer)
-    write(method_analysis, table, csv_file_name)
+problem = True
+while problem:
+    if method_analysis == "vader":
+        table = vader_execution(number_rows, data)
+        write(method_analysis, table, csv_file_name)
+        problem = False
+    elif method_analysis == "gcloud":
+        table = gcloud_execution(number_rows, data)
+        write(method_analysis, table, csv_file_name)
+        problem = False
+    else:
+        print(
+            "There are only 2 methods you can choose (please type vader or gcloud)"
+        )
+        method_analysis = input(
+            'What method would you like to use for sentiment analysis (type "gcloud" or "vader")?'
+        )
