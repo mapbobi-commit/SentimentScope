@@ -8,7 +8,8 @@ import numpy as np
 
 def date_time_changer(date):
     date_datetime = datetime.strptime(
-        str(date).replace("PDT", ""), "%a %b %d %H:%M:%S %Y")
+        str(date).replace("PDT", ""), "%a %b %d %H:%M:%S %Y"
+    )
     return date_datetime.strftime("%Y-%m-%d")
 
 
@@ -22,10 +23,12 @@ def gcloud_analyze_sentiment(content):
     document = {"type_": type_, "content": content}
 
     encoding_type = language_v1.EncodingType.UTF8
-    response = client.analyze_sentiment(request={
-        "document": document,
-        "encoding_type": encoding_type,
-    })
+    response = client.analyze_sentiment(
+        request={
+            "document": document,
+            "encoding_type": encoding_type,
+        }
+    )
     return response
 
 
@@ -35,9 +38,11 @@ def sentence_concatenate(table):
     overall_text = ""
 
     for row in table.index:
-        if (table["text"][row].strip(" ").endswith("?")
-                or table["text"][row].strip(" ").endswith(".")
-                or table["text"][row].strip(" ").endswith("!")):
+        if (
+            table["text"][row].strip(" ").endswith("?")
+            or table["text"][row].strip(" ").endswith(".")
+            or table["text"][row].strip(" ").endswith("!")
+        ):
             overall_text = "{}{} <br>".format(
                 overall_text,
                 table["text"][row].strip(" "),
@@ -64,8 +69,9 @@ def sentiment_array(sentences_sentiment, length_text_each_person):
         if len(sentiment_magnitude) == 0:
             sentiment_magnitude.append(x.sentiment.magnitude)
             sentiment_score.append([x.sentiment.score])
-        elif (x.text.begin_offset - previous_offset <=
-              length_text_each_person[i]):
+        elif (
+            x.text.begin_offset - previous_offset <= length_text_each_person[i]
+        ):
             sentiment_magnitude[i] += x.sentiment.magnitude
             sentiment_score[i].append(x.sentiment.score)
         else:
@@ -84,12 +90,14 @@ def gcloud_execution(number_of_randow_rows, table):
     random_row_table = table.sample(number_of_randow_rows)
 
     length_text_each_person, overall_text = sentence_concatenate(
-        random_row_table)
+        random_row_table
+    )
 
     sentences_sentiment = gcloud_analyze_sentiment(overall_text).sentences
 
     sentiment_magnitude, sentiment_score = sentiment_array(
-        sentences_sentiment, length_text_each_person)
+        sentences_sentiment, length_text_each_person
+    )
     (
         random_row_table["sentiment_magnitude"],
         random_row_table["sentiment_score"],
