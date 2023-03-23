@@ -32,7 +32,7 @@ def gcloud_analyze_sentiment(content):
     return response
 
 
-# Takes each random row and cleans it and then concatenates to the next row to create a single string
+# Takes each random row's sentence and cleans it and then concatenates to the next row to create a single string
 def sentence_concatenate(table):
     length_text_each_person = []
     overall_text = ""
