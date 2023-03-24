@@ -14,6 +14,7 @@ def date_time_changer(date):
     return date_datetime.strftime("%Y-%m-%d")
 
 
+
 # Function which rounds and gets the sentiment out of a string
 def sentiment_compound(x):
     return round(
