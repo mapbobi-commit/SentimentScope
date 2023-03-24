@@ -13,7 +13,7 @@ def read(path_to_file):
             )
         elif (
             path_to_file.split(".")[-1] == "sqlite"
-            or path_to_file.split(".")[1] == "db"
+            or path_to_file.split(".")[-1] == "db"
         ):
             table_name = input(
                 "What's the name of the table you want to read?"
