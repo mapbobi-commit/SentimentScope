@@ -11,7 +11,7 @@ number_rows = int(
 )
 csv_file_name = (
     input(
-        "What path do you want to the csv file you want to create?"
+        "What's the path to the file you want to create?"
     )
     or f"../data/nameless_csv_file {random.randint(0, 100)}"
 )
