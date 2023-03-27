@@ -2,40 +2,41 @@ import pandas as pd
 from gcloud import gcloud_execution
 from vader import vader_execution
 import utils
-import datetime
 import random
 
-# Takes the date and text columns
-number_rows = int(
-    input("How many rows do you want the table to have?")
+
+path_to_file = (
+    input("What's the name of the file you want to use (must be csv)?")
+    or "example_csv_file.csv"
 )
-csv_file_name = (
-    input(
-        "What's the path to the file you want to create?"
-    )
-    or f"../data/nameless_csv_file {random.randint(0, 100)}"
-)
+path_to_file = f"../data/input_csv/{path_to_file}"
+
+number_rows = int(input("How many rows do you want the table to have?"))
 method_analysis = input(
     'What method would you like to use for sentiment analysis (type "gcloud" or "vader")?'
 )
-path_to_file = (
+
+storage_file_name = (
     input(
-        "What's the path to the file you want to use (either csv or sqlite or db)?"
+        "What do you want the name of the file you will create to be(type sqlite if you wish to store it in a database)?"
     )
-    or "..data/example_csv/example_csv_file.csv"
+    or f"csv_file_without_name{random.randint(0, 100)}"
 )
+storage_file_name = f"../data/output_csv/{storage_file_name}"
+
+
 
 data = utils.read(path_to_file)
-problem = True
-while problem:
+wrong_method = True
+while wrong_method:
     if method_analysis == "vader":
-        table = vader_execution(number_rows, data)
-        utils.write(table, csv_file_name, path_to_file)
-        problem = False
+        data_with_sentiment_analysis = vader_execution(number_rows, data)
+        utils.write(data_with_sentiment_analysis, storage_file_name)
+        wrong_method = False
     elif method_analysis == "gcloud":
-        table = gcloud_execution(number_rows, data)
-        utils.write(table, csv_file_name, path_to_file)
-        problem = False
+        data_with_sentiment_analysis = gcloud_execution(number_rows, data)
+        utils.write(data_with_sentiment_analysis, storage_file_name)
+        wrong_method = False
     else:
         print(
             "There are only 2 methods you can choose (please type vader or gcloud)"
