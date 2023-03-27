@@ -7,7 +7,7 @@ A tool for performing sentiment analysis on Instagram and Twitter comments using
 - Python
 - pip
 - [Natural language API](https://cloud.google.com/python/docs/reference/language/latest)
-- csv or database file with twitter/instagram comments (3rd, 6th column have to be date and text respectively)
+- csv file with twitter/instagram comments (3rd, 6th column have to be date and text respectively)
 
 ## Set up
 
